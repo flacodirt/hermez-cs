@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "hermezcs\UnitTests\UnitTests.csproj", "{3BB62541-E45E-486C-B535-800A56F501D9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationTests", "hermezcs\IntegrationTests\IntegrationTests.csproj", "{306E4F02-6301-46D5-876E-F72F70F7BA91}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hermezcs", "hermezcs\hermezcs\hermezcs.csproj", "{327E0C3E-2391-43CA-9C05-2D530D206428}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Abstract", "hermezcs\Abstract\Abstract.csproj", "{52734791-CD17-437B-A83D-A83722212553}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "hermezcs\Models\Models.csproj", "{1CF22521-96E2-4BC9-BC74-423ABDCE3A52}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hermezclient", "hermezcs\hermezclient\hermezclient.csproj", "{55780D3B-1606-4EC9-9F9D-4C9ECDEF4BC7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3BB62541-E45E-486C-B535-800A56F501D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BB62541-E45E-486C-B535-800A56F501D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BB62541-E45E-486C-B535-800A56F501D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BB62541-E45E-486C-B535-800A56F501D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{306E4F02-6301-46D5-876E-F72F70F7BA91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{306E4F02-6301-46D5-876E-F72F70F7BA91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{306E4F02-6301-46D5-876E-F72F70F7BA91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{306E4F02-6301-46D5-876E-F72F70F7BA91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{327E0C3E-2391-43CA-9C05-2D530D206428}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{327E0C3E-2391-43CA-9C05-2D530D206428}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{327E0C3E-2391-43CA-9C05-2D530D206428}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{327E0C3E-2391-43CA-9C05-2D530D206428}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52734791-CD17-437B-A83D-A83722212553}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52734791-CD17-437B-A83D-A83722212553}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52734791-CD17-437B-A83D-A83722212553}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52734791-CD17-437B-A83D-A83722212553}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CF22521-96E2-4BC9-BC74-423ABDCE3A52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CF22521-96E2-4BC9-BC74-423ABDCE3A52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CF22521-96E2-4BC9-BC74-423ABDCE3A52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CF22521-96E2-4BC9-BC74-423ABDCE3A52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55780D3B-1606-4EC9-9F9D-4C9ECDEF4BC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55780D3B-1606-4EC9-9F9D-4C9ECDEF4BC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55780D3B-1606-4EC9-9F9D-4C9ECDEF4BC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55780D3B-1606-4EC9-9F9D-4C9ECDEF4BC7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A3B6A414-20D7-4968-A8E9-BC8B6131E78A}
+	EndGlobalSection
+EndGlobal
