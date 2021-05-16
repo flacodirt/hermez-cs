@@ -1,13 +1,30 @@
-https://gitcoin.co/issue/hermeznetwork/0xhack/3/100025693
-https://github.com/hermeznetwork/hermezjs/blob/main/src/constants.js
-https://docs.hermez.io/#/developers/sdk?id=configure-hermez-environment
-https://docs.hermez.io/#/developers/api
-https://apidoc.hermez.network/#/
-https://gitcoin.co/hackathon/0x-hack/projects/5236/hermezcs
-https://github.com/flacodirt/hermez-cs
-
 # hermezCS
-HermezCS is an open source SDK in dotnet core C# used to interact with the Hermez Rollup network. Hermez is a decentralised zk-rollup focused on scaling payments and token transfers on top of Ethereum. 
+
+Hermez is a decentralised zk-rollup focused on scaling payments and token transfers on top of Ethereum. 
+
+HermezCS is a dotnet core C# SDK which allows a dotnet core C# application to integrate with the Hermez Network API.
+
+The Hermez Network API is the layer that allows 3rd party apps and services to interface with the coordinator to explore, monitor and use the layer two features of the Hermez rollup.
+
+Example of these apps include:
+
+    Wallet: send L2 transactions, check balance, ...
+    Explorer: List transactions, slots, batches, ...
+    Exchange integrations
+
+## Developers Guide
+
+HermezCS is developed entirely using dotnet core C# v3.1 LTS and is comprised of several projects described below:
+
+- Abstract: Interface definitions for the SDK itself and the Client used to communicate with the Hermez API.
+- hermezclient: Implementation of the Client interface used to communicate with the Hermez API. This implementation is using HttpClient.
+- hermezcs: Implementation of the SDK interface used to integrate with the Hermez Network. This implementation is dotnet core C# netstandard2.0.
+- IntegrationTests: Integration Test project used to fully test components reaching out to the Hermez Test Network.
+- Models: Model definitions including all response objects from the Hermez Network.
+- UnitTests: Unit Test project used to test the inner business logic of the SDK to ensure the SDK works as expected given expected mocked results from the Hermez Network.
+
+
+**Below is a work-in-progress**
 
 ## SDK How-To
 
@@ -42,11 +59,69 @@ Before being able to operate on the Hermez Network, we must ensure that the toke
 
 We can see there are 2 tokens registered. ETH will always be configured at index 0. The second token is HEZ. For the rest of the examples we will work with ETH. In the future, more tokens will be included in Hermez.
 
-JS:
-const token = await hermez.CoordinatorAPI.getTokens()
-const tokenERC20 = token.tokens[0]
-console.log(token)
+```
+//act
+var tokens = await sdk.GetAvailableTokens();
 
-https://apidoc.hermez.network/#/Explorer/getTokens
-curl -X GET "https://api.testnet.hermez.io/v1/tokens?order=ASC" -H  "accept: application/json"
+//assert
+Assert.True(tokens.Count > 1);
+Assert.Equal("ETH", tokens[0].symbol);
+```
 
+# Getting Started
+
+1. User connects wallet to Hermez Network. This will automatically drive a Hermez account from the Ethereum account. This will then lead to an empty wallet.
+1. The next step is to make a deposit. 
+
+Deposit:
+
+1. Select token
+1. Select amount
+1. Deposit
+
+Transfer:
+
+1. Select token
+1. Select recepient
+1. Select amount
+1. Transfer
+
+Confirmation:
+
+Deposit - L1 - sign with Ethereum wallet
+
+
+# Accounts
+
+Making Deposits creates accounts.
+
+# Transactions
+
+Opening an account shows all the transactions related to that account.
+
+Opening a transaction shows information related to that transaction.
+
+# Withdrawals
+
+Withdrawals are a two-part process. After completing the first part explained above, a card appears on the Home screen or on the respective account page. When ready, it will show a button to finalize the withdrawal.
+
+*Withdrawals require paying a gas fee on L1, insufficient gas in your L1 account will cause the withdrawal to stall.
+
+*Withdrawals are final and cannot be stopped, reversed, or altered in any way after initiated. 
+
+
+# Notes
+
+https://gitcoin.co/issue/hermeznetwork/0xhack/3/100025693
+
+https://github.com/hermeznetwork/hermezjs/blob/main/src/constants.js
+
+https://docs.hermez.io/#/developers/sdk?id=configure-hermez-environment
+
+https://docs.hermez.io/#/developers/api
+
+https://apidoc.hermez.network/#/
+
+https://gitcoin.co/hackathon/0x-hack/projects/5236/hermezcs
+
+https://github.com/flacodirt/hermezcs

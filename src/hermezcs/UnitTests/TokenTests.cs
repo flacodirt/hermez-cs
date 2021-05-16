@@ -65,6 +65,7 @@ namespace hermezcs.UnitTests
 
             //assert
             Assert.True(tokens.Count > 1);
+            Assert.Equal("ETH", tokens[0].symbol);
         }
     }
 }
