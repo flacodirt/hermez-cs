@@ -26,11 +26,13 @@ HermezCS is developed entirely using dotnet core C# v3.1 LTS and is comprised of
 
 **Below is a work-in-progress**
 
+
 ## SDK How-To
 
 In these sections we will walk through the process of using the SDK to:
 
 1. Installing HermezCS
+1. Importing HermezCS
 1. Initializing HermezCS
 1. Check registered tokens
 1. Creating a wallet
@@ -44,14 +46,32 @@ In these sections we will walk through the process of using the SDK to:
 
 ### Installing HermezCS
 
+The following `dotnet` commands will build and compile the binaries from the source files.
+
+```
+dotnet restore
+dotnet build -c Release --no-restore
+dotnet test --no-restore
+dotnet publish -c Release -o out --no-restore
+```
+
+### Importing HermezCS
+
+Add the compiled .DLL file to your project references.
+
+Add the using statement in your project file.
+
+```
+using hermezcs;
+```
+
 ### Initializing HermezCS
 
-1. Create Transaction Pool
+#### Create Transaction Pool
 
-Initialize the storage where user transactions are stored. This needs to be initialized at the start of your application.
+@TODO: Not needed with CS?
 
-JS:
-hermez.TxPool.initializeTransactionPool()
+#### Configure Hermez Environment
 
 ### Check registered tokens
 
@@ -67,6 +87,39 @@ var tokens = await sdk.GetAvailableTokens();
 Assert.True(tokens.Count > 1);
 Assert.Equal("ETH", tokens[0].symbol);
 ```
+
+### Create a Wallet
+
+We can create a new Hermez wallet by providing the Ethereum private key of an Ethereum account. This wallet will store the Ethereum and Baby JubJub keys for the Hermez account. The Ethereum address is used to authorize L1 transactions, and the Baby JubJub key is used to authorize L2 transactions. We will create two wallets.
+
+### Deposit Tokens from Ethereum into Hermez Network
+
+Creating a Hermez account and depositing tokens is done simultaneously as an L1 transaction. In this example we are going to deposit 1 ETH tokens into the newly created Hermez accounts. 
+
+### Verify Balance
+
+A token balance can be obtained by querying the API and passing the hermezEthereumAddress of the Hermez account.
+
+### Withdrawing
+
+Withdrawing funds is a two step process:
+
+    Exit
+    Withdrawal
+
+#### Exit
+
+#### Withdrawal
+
+#### Force Exit
+
+### Transfers
+
+### Verifying Transaction Status
+
+### Create Account Authorization
+
+### Create Internal Accounts
 
 # Getting Started
 
@@ -90,18 +143,17 @@ Confirmation:
 
 Deposit - L1 - sign with Ethereum wallet
 
-
-# Accounts
+## Accounts
 
 Making Deposits creates accounts.
 
-# Transactions
+## Transactions
 
 Opening an account shows all the transactions related to that account.
 
 Opening a transaction shows information related to that transaction.
 
-# Withdrawals
+## Withdrawals
 
 Withdrawals are a two-part process. After completing the first part explained above, a card appears on the Home screen or on the respective account page. When ready, it will show a button to finalize the withdrawal.
 
@@ -109,6 +161,11 @@ Withdrawals are a two-part process. After completing the first part explained ab
 
 *Withdrawals are final and cannot be stopped, reversed, or altered in any way after initiated. 
 
+# Considerations
+
+- hermezclient: HttpClient automatic retry logic
+
+- Docker
 
 # Notes
 
