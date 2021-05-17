@@ -1,4 +1,5 @@
 ﻿using hermezcs.Abstract;
+using hermezcs.Models;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -25,7 +26,12 @@ namespace hermezcs.hermezclient
 		{
 			return await _httpClient.GetAsync(url);
 		}
-		
+
+		public async Task<HttpResponseMessage> PostAsync(string url, object content)
+		{
+			return await _httpClient.PostAsync(url, new JsonContent(content));
+		}
+
 		public void Dispose()
 		{
 			_httpClient?.Dispose();

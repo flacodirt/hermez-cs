@@ -15,6 +15,14 @@ namespace hermezcs.Abstract
         /// </summary>
         /// <returns></returns>
         Task<List<Token>> GetAvailableTokens();
+        /// <summary>
+        /// We can create a new Hermez wallet by providing the Ethereum private key of an Ethereum account.
+        /// This wallet will store the Ethereum and Baby JubJub keys for the Hermez account.
+        /// The Ethereum address is used to authorize L1 transactions.
+        /// The Baby JubJub key is used to authorize L2 transactions.
+        /// </summary>
+        /// <returns></returns>
+        Task<string> CreateWallet(string hezEthereumAddress, string bjj, string signature);
         Task<List<string>> GetAccounts();
     }
 }
