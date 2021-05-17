@@ -12,17 +12,21 @@ namespace hermezcs
     {
         private ILogger<hermezcs> _logger;
         private Ihermezclient _hermezclient;
+        private string _apiVersion;
 
-        public hermezcs(ILogger<hermezcs> logger, Ihermezclient hermezclient, string apiUrl = "https://api.testnet.hermez.io")
+        public hermezcs(ILogger<hermezcs> logger, Ihermezclient hermezclient,
+            string apiUrl = "https://api.testnet.hermez.io",
+            string apiVersion = "v1")
         {
             _logger = logger;
             _hermezclient = hermezclient;
             _hermezclient.SetBaseAddress(apiUrl);
+            _apiVersion = apiVersion;
         }
 
         public async Task<List<Token>> GetAvailableTokens()
         {
-            var endpoint = "/v1/tokens";
+            var endpoint = $"/{_apiVersion}/tokens";
             try
             {
                 var httpResponse = await _hermezclient.GetAsync(endpoint);
