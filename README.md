@@ -23,10 +23,6 @@ HermezCS is developed entirely using dotnet core C# v3.1 LTS and is comprised of
 - Models: Model definitions including all response objects from the Hermez Network.
 - UnitTests: Unit Test project used to test the inner business logic of the SDK to ensure the SDK works as expected given expected mocked results from the Hermez Network.
 
-
-**Below is a work-in-progress**
-
-
 ## SDK How-To
 
 In these sections we will walk through the process of using the SDK to:
@@ -34,15 +30,15 @@ In these sections we will walk through the process of using the SDK to:
 1. Installing HermezCS
 1. Importing HermezCS
 1. Initializing HermezCS
-1. Check registered tokens
+1. Checking if token exists in Hermez Network
 1. Creating a wallet
-1. Making a deposit from Ethereum into the Hermez Network
+1. Depositing Tokens from Ethereum into Hermez Network
 1. Verifying the balance in a Hermez account
-1. Withdrawing funds back to Ethereum network
+1. Withdrawing funds Hermez Network back to Ethereum network
 1. Making transfers
 1. Verifying transaction status
 1. Authorizing the creation of Hermez accounts
-1. Internal accounts
+1. Creating internal accounts
 
 ### Installing HermezCS
 
@@ -73,7 +69,7 @@ using hermezcs;
 
 #### Configure Hermez Environment
 
-### Check registered tokens
+### Checking if token exists in Hermez Network
 
 Before being able to operate on the Hermez Network, we must ensure that the token we want to operate with is listed. For that we make a call to the Hermez Coordinator API that will list all available tokens. All tokens in Hermez Network must be ERC20.
 
@@ -88,19 +84,21 @@ Assert.True(tokens.Count > 1);
 Assert.Equal("ETH", tokens[0].symbol);
 ```
 
-### Create a Wallet
+**Below is a work-in-progress**
+
+### Creating a Wallet
 
 We can create a new Hermez wallet by providing the Ethereum private key of an Ethereum account. This wallet will store the Ethereum and Baby JubJub keys for the Hermez account. The Ethereum address is used to authorize L1 transactions, and the Baby JubJub key is used to authorize L2 transactions. We will create two wallets.
 
-### Deposit Tokens from Ethereum into Hermez Network
+### Depositing Tokens from Ethereum into Hermez Network
 
 Creating a Hermez account and depositing tokens is done simultaneously as an L1 transaction. In this example we are going to deposit 1 ETH tokens into the newly created Hermez accounts. 
 
-### Verify Balance
+### Verifying the balance in a Hermez account
 
 A token balance can be obtained by querying the API and passing the hermezEthereumAddress of the Hermez account.
 
-### Withdrawing
+### Withdrawing funds Hermez Network back to Ethereum network
 
 Withdrawing funds is a two step process:
 
@@ -113,13 +111,13 @@ Withdrawing funds is a two step process:
 
 #### Force Exit
 
-### Transfers
+### Making transfers
 
-### Verifying Transaction Status
+### Verifying transaction status
 
-### Create Account Authorization
+### Authorizing the creation of Hermez accounts
 
-### Create Internal Accounts
+### Creating internal accounts
 
 # Getting Started
 
