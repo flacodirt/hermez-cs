@@ -180,3 +180,33 @@ https://apidoc.hermez.network/#/
 https://gitcoin.co/hackathon/0x-hack/projects/5236/hermezcs
 
 https://github.com/flacodirt/hermezcs
+
+
+## Signatures
+
+https://medium.com/mycrypto/the-magic-of-digital-signatures-on-ethereum-98fe184dc9c7
+
+https://www.codementor.io/@yosriady/signing-and-verifying-ethereum-signatures-vhe8ro3h6
+
+https://www.scottbrady91.com/C-Sharp/Supporting-Custom-JWT-Signing-Algorithms-in-dotnet-Core
+
+https://github.com/Chainers/Cryptography.ECDSA
+
+Ethereum uses the Elliptic Curve Digital Signature Algorithm (ECDSA).
+
+Note: ECDSA is only a signature algorithm. It cannot be used for encryption, unlike RSA and AES.
+
+Using elliptic curve point manipulation, we can derive a value from the private key, which is not reversible. This way we can create signatures that are safe and tamperproof.
+
+https://github.com/MeadowSuite/Secp256k1.Net
+
+https://github.com/MeadowSuite/secp256k1
+
+https://etherscan.io/verifySig/
+
+https://dzone.com/articles/signing-and-verifying-ethereum-signatures
+
+https://github.com/jeffprestes/hermez-go-sdk/blob/main/account/creation.go
+
+https://github.com/hermeznetwork/hermezjs/blob/main/src/hermez-wallet.js
+
