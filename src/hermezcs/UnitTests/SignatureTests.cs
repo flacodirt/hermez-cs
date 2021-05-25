@@ -30,6 +30,71 @@ namespace hermezcs.UnitTests
             Assert.Matches(bjjAddressPattern, req.bjj);
             var messageContentString = JsonConvert.SerializeObject(req, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
 
+            // sign msg with ETH PRVT KEY
+            var signer = new EthereumMessageSigner();
+            var signature = signer.EncodeUTF8AndSign(messageContentString, new EthECKey(ETH_DEV_PRIVATE_KEY_STR));
+            //"0x8a133b60c41afba8d200a72f68d61f1447faa3d6b053efa88983c865678dd0c8725087d4ba6df7a2b3f4c391b27d6de3db52ef432c412f06f018c171efdf65c11b"
+
+            // Recover signer ETH PUB address from a message by using their signature
+            var recoveredPubAddy = signer.EncodeUTF8AndEcRecover(messageContentString, signature); // "0x0CDB2c68b5f2c2Fb31128FD4bC32d8e0503fAb5C"
+            Assert.Equal(ETH_DEV_PUBLIC_ADDRESS, recoveredPubAddy);
+        }
+
+        [Fact]
+        public void SignatureB_ShouldVerify()
+        {
+            // construct request
+            var addresses = new Addresses();
+            var bjjPubComp = addresses.HexToBase64BJJ(BJJ_DEV_PRIVATE_KEY);
+            var req = new CreateWalletRequest
+            {
+                hezEthereumAddress = $"{HERMEZ_PREFIX}{ETH_DEV_PUBLIC_ADDRESS}",
+                bjj = bjjPubComp
+            };
+            Assert.Matches(hezEthereumAddressPattern, req.hezEthereumAddress);
+            Assert.Matches(bjjAddressPattern, req.bjj);
+            
+            var messageContentString = JsonConvert.SerializeObject(req, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+
+            // sign msg with ETH PRVT KEY
+            var signer = new EthereumMessageSigner();
+            var signature = signer.EncodeUTF8AndSign(messageContentString, new EthECKey(ETH_DEV_PRIVATE_KEY_STR));
+            //"0x8a133b60c41afba8d200a72f68d61f1447faa3d6b053efa88983c865678dd0c8725087d4ba6df7a2b3f4c391b27d6de3db52ef432c412f06f018c171efdf65c11b"
+
+            // whats actually put on wire
+            req.signature = signature;
+            var actualMsgString = JsonConvert.SerializeObject(req, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+
+            //^-- if you try to Recover signature from full serialized message WITH signature in object, it will FAIL...
+            // have to REMOVE the signature from the received object to match serialized object that was signed...
+
+            //deserialize
+            var receiveDes = JsonConvert.DeserializeObject<CreateWalletRequest>(actualMsgString);
+            var receivedSig = receiveDes.signature;
+            receiveDes.signature = null;
+            var verifyMe = JsonConvert.SerializeObject(receiveDes, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+
+            // Recover signer ETH PUB address from a message by using their signature
+            var recoveredPubAddy = signer.EncodeUTF8AndEcRecover(verifyMe, receivedSig); // "0x0CDB2c68b5f2c2Fb31128FD4bC32d8e0503fAb5C"
+            Assert.Equal(ETH_DEV_PUBLIC_ADDRESS, recoveredPubAddy);
+        }
+
+
+        [Fact]
+        public void Signature_Testing_ShouldVerify()
+        {
+            // construct request
+            var addresses = new Addresses();
+            var bjjPubComp = addresses.HexToBase64BJJ(BJJ_DEV_PRIVATE_KEY);
+            var req = new CreateWalletRequest
+            {
+                hezEthereumAddress = $"{HERMEZ_PREFIX}{ETH_DEV_PUBLIC_ADDRESS}",
+                bjj = bjjPubComp
+            };
+            Assert.Matches(hezEthereumAddressPattern, req.hezEthereumAddress);
+            Assert.Matches(bjjAddressPattern, req.bjj);
+            var messageContentString = JsonConvert.SerializeObject(req, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+
             using (var sha256 = SHA256.Create())
             {
                 var hashA = Hex.HexToBytes(messageContentString);
@@ -71,5 +136,7 @@ namespace hermezcs.UnitTests
                 //var ve4 = signer.HashAndEcRecover(messageContentString, signature1); // "0x54966965F9Bb461382DF1e1F9D67443684427302"
             }
         }
+
+
     }
 }
