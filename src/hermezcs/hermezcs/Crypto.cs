@@ -87,13 +87,17 @@ namespace hermezcs
             return WebEncoders.Base64UrlEncode(publicKeyCompressed);
         }
 
+        /// <summary>
+        /// http://docs.nethereum.com/en/latest/nethereum-signing-messages/#3-hashing-and-signing-a-message-using-hashandsign
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="privateKey"></param>
+        /// <returns></returns>
         public string SignMessage(byte[] message, byte[] privateKey)
         {
-            var signer1 = new EthereumMessageSigner();
-            var signature1 = signer1.HashAndSign(message, new EthECKey(privateKey, true));
-            return signature1;
-
-
+            var signer = new EthereumMessageSigner();
+            var signature = signer.HashAndSign(message, new EthECKey(privateKey, true));
+            return signature;
         }
     }
 }

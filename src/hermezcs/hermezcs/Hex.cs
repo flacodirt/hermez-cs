@@ -15,6 +15,11 @@ namespace hermezcs
             return result;
         }
 
+        /// <summary>
+        /// https://stackoverflow.com/a/9995303/1992193
+        /// </summary>
+        /// <param name="hex"></param>
+        /// <returns></returns>
         public static byte[] HexToBytes(string hex)
         {
             if (hex.Length % 2 != 0)
@@ -27,6 +32,11 @@ namespace hermezcs
             return arr;
         }
 
+        /// <summary>
+        /// https://stackoverflow.com/a/9995303/1992193
+        /// </summary>
+        /// <param name="hex"></param>
+        /// <returns></returns>
         private static int GetHexVal(char hex)
         {
             int val = hex;
@@ -68,6 +78,11 @@ namespace hermezcs
         public static string ToHexString(this Span<byte> span)
         {
             return "0x" + BitConverter.ToString(span.ToArray()).Replace("-", "").ToLowerInvariant();
+        }
+
+        public static string ToHexString(this byte[] array)
+        {
+            return "0x" + BitConverter.ToString(array).Replace("-", "").ToLowerInvariant();
         }
 
         public static byte[] HexToBytes(this string hexString)

@@ -7,6 +7,7 @@ using Secp256k1Net;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -28,14 +29,23 @@ namespace hermezcs
             _apiVersion = apiVersion;
         }
 
+        private void HandleErrorResponse(HttpResponseMessage httpResponse, string responseStream)
+        {
+            // log error response
+            var errorResultResponse = JsonConvert.DeserializeObject<ErrorResponse>(responseStream);
+            _logger.LogError($"hermez network non-success status code: ({(int)httpResponse.StatusCode}) {httpResponse.StatusCode}, response: {errorResultResponse.message}");
+            // throw exception if not success
+            httpResponse.EnsureSuccessStatusCode();
+        }
+
         public async Task<List<Token>> GetAvailableTokens()
         {
             var endpoint = $"/{_apiVersion}/tokens";
             try
             {
                 var httpResponse = await _hermezclient.GetAsync(endpoint);
-                httpResponse.EnsureSuccessStatusCode();
                 var responseStream = await httpResponse.Content.ReadAsStringAsync();
+                if (!httpResponse.IsSuccessStatusCode) HandleErrorResponse(httpResponse, responseStream);
                 var resultResponse = JsonConvert.DeserializeObject<GetAvailableTokensResponse>(responseStream);
                 return resultResponse.tokens;
             }
@@ -46,7 +56,8 @@ namespace hermezcs
             }
         }
 
-        public async Task<string> CreateWallet(string hezEthereumAddress, string bjj, string signature)
+        public async Task<string> CreateWallet(string hezEthereumAddress, string bjj, 
+            string signature)
         {
             var endpoint = $"/{_apiVersion}/account-creation-authorization";
             CreateWalletRequest req = null;
@@ -60,13 +71,7 @@ namespace hermezcs
                 };
                 var httpResponse = await _hermezclient.PostAsync(endpoint, req);
                 var responseStream = await httpResponse.Content.ReadAsStringAsync();
-                if (!httpResponse.IsSuccessStatusCode)
-                {
-                    // log error response
-                    var errorResultResponse = JsonConvert.DeserializeObject<ErrorResponse>(responseStream);
-                    _logger.LogError($"hermez network non-success status code: ({(int)httpResponse.StatusCode}) {httpResponse.StatusCode}, response: {errorResultResponse.message}");
-                    httpResponse.EnsureSuccessStatusCode();
-                }
+                if (!httpResponse.IsSuccessStatusCode) HandleErrorResponse(httpResponse, responseStream);
                 var resultResponse = JsonConvert.DeserializeObject<CreateWalletResponse>(responseStream);
                 return resultResponse.hezEthereumAddress;
             }
@@ -74,6 +79,24 @@ namespace hermezcs
             {
                 _logger.LogError(ex, $"Exception creating wallet. BaseAddress: {_hermezclient.BaseAddress} Endpoint: {endpoint} URI: {_hermezclient.BaseAddress}{endpoint}");
                 _logger.LogTrace(JsonConvert.SerializeObject(req));
+                throw;
+            }
+        }
+
+        public async Task<AccountCreationAuthorization> GetAuth(string hezEthereumAddress)
+        {
+            var endpoint = $"/{_apiVersion}/account-creation-authorization/{hezEthereumAddress}";
+            try
+            {
+                var httpResponse = await _hermezclient.GetAsync(endpoint);
+                var responseStream = await httpResponse.Content.ReadAsStringAsync();
+                if (!httpResponse.IsSuccessStatusCode) HandleErrorResponse(httpResponse, responseStream);
+                var resultResponse = JsonConvert.DeserializeObject<AccountCreationAuthorization>(responseStream);
+                return resultResponse;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Exception getting account creation authorization. BaseAddress: {_hermezclient.BaseAddress} Endpoint: {endpoint} URI: {_hermezclient.BaseAddress}{endpoint}");
                 throw;
             }
         }

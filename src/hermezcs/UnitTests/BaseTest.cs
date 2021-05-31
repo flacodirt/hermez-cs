@@ -10,6 +10,7 @@ namespace hermezcs.UnitTests
     /// </summary>
     public abstract class BaseTest
     {
+        // const values from: https://github.com/hermeznetwork/hermezjs/blob/be16cc414640a50adbc9899cefaea8a7ccbc202b/tests/unit/hermez-wallet.test.js
         public const string hermezEthereumAddress = "hez:0x4294cE558F2Eb6ca4C3191AeD502cF0c625AE995";
         public const string hermezEthereumAddressError = "0x4294cE558F2Eb6ca4C3191AeD502cF0c625AE995";
         public byte[] privateKey = new byte[] { 10, 147, 192, 202, 232, 207, 65, 134, 114, 147, 167, 10, 140, 18, 111, 145, 163, 133, 85, 250, 191, 58, 146, 129, 0, 79, 4, 238, 153, 79, 151, 219 };
@@ -20,7 +21,14 @@ namespace hermezcs.UnitTests
         public const string EMPTY_BJJ_ADDR = "hez:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
         public const string expectedPvtBjj = "6d59205d6117b7185adda0456dd5c018651e98747f9b0754d97f2666313885f6";
         public const string privateKeyEth = "0x0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef";
+        public const string METAMASK_MESSAGE = "Hermez Network account access.\n\nSign this message if you are in a trusted application only.";
+        public const string HERMEZ_PREFIX = "hez:";
+        public Regex ethereumAddressPattern = new Regex("^0x[a-fA-F0-9]{40}$");
+        public Regex hezEthereumAddressPattern = new Regex("^hez:0x[a-fA-F0-9]{40}$");
+        public Regex bjjAddressPattern = new Regex("^hez:[A-Za-z0-9_-]{44}$");
+        public Regex signaturePattern = new Regex("^0x[a-fA-F0-9]{130}$");
 
+        // hermezcs
         public byte[] BJJ_DEV_PRIVATE_KEY = Hex.HexToBytes(BJJ_DEV_PRIVATE_KEY_STR);
         public byte[] BJJ_DEV_PUBLIC_KEY;
 
@@ -36,12 +44,5 @@ namespace hermezcs.UnitTests
         public const string EXAMPLES_HERMEZ_API_VERSION = "v1";
         public const string EXAMPLES_HERMEZ_ROLLUP_ADDRESS = "0x14a3b6f3328766c7421034e14472f5c14c5ba090";
         public const string EXAMPLES_HERMEZ_WDELAYER_ADDRESS = "0x6ea0abf3ef52d24427043cad3ec26aa4f2c8e8fd";
-
-        public const string HERMEZ_PREFIX = "hez:";
-        public Regex ethereumAddressPattern = new Regex("^0x[a-fA-F0-9]{40}$");
-        public Regex hezEthereumAddressPattern = new Regex("^hez:0x[a-fA-F0-9]{40}$");
-        public Regex bjjAddressPattern = new Regex("^hez:[A-Za-z0-9_-]{44}$");
-        public Regex signaturePattern = new Regex("^0x[a-fA-F0-9]{130}$");
-
     }
 }
