@@ -102,7 +102,7 @@ namespace hermezcs.UnitTests
             // makes compressed public key bytes
             // makes b64urlencoded string of compressed public key
             // returns prefix+b64 string
-            var b64e = addresses.HexToBase64BJJ(BJJ_DEV_PRIVATE_KEY);
+            var b64e = addresses.HexToBase64BJJ(BJJ_DEV_PRIVATE_KEY.ToHexString());
 
             // this takes prefix+b64 string
             // removes prefix

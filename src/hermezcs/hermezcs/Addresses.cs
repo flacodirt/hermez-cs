@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.WebUtilities;
 using Nethereum.Signer.Crypto;
 using System;
+using System.Buffers.Binary;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace hermezcs
@@ -12,7 +14,7 @@ namespace hermezcs
         /// Get the hermez address representation of an ethereum address
         /// </summary>
         /// <param name="ethereumAddress"></param>
-        /// <returns></returns>
+        /// <returns>hezEthereumAddress</returns>
         public string GetHermezAddress(string ethereumAddress)
         {
             return $"{Constants.HERMEZ_PREFIX}{ethereumAddress}";
@@ -22,7 +24,7 @@ namespace hermezcs
         /// Gets the Ethereum address part of a Hermez address
         /// </summary>
         /// <param name="hezEthereumAddress"></param>
-        /// <returns></returns>
+        /// <returns>ethereumAddress</returns>
         public string GetEthereumAddress(string hezEthereumAddress)
         {
             if (hezEthereumAddress.Contains($"{Constants.HERMEZ_PREFIX}"))
@@ -87,18 +89,53 @@ namespace hermezcs
         }
 
         /// <summary>
+        /// Equiv of function hexToBase64BJJ
+        /// From: https://github.com/hermeznetwork/hermezjs/blob/db9a45831937da3de39dc8888423692c2f875436/src/addresses.js#L88
+        /// 
         /// Get API Bjj compressed data format
+        /// @param {String} bjjCompressedHex - Bjj compressed address encoded as hex string
+        /// @returns {String} API adapted bjj compressed address
+        ///
         /// </summary>
         /// <param name="bjjCompressedHex"></param>
         /// <returns></returns>
-        public string HexToBase64BJJ(byte[] privateKey)//string bjjCompressedHex)
+        /// <returns>API adapted bjj compressed address</returns>
+        public string HexToBase64BJJ(string bjjCompressedHex)
         {
-            //see: https://github.com/hermeznetwork/hermezjs/blob/main/src/addresses.js
-            //do we need to swap endian?
-            //do we need to calc/append sum byte?
-            var compressedPublicKey = new ECKey(privateKey, true).GetPubKey(true);
-            var encodedB64CompressedPublicKey = WebEncoders.Base64UrlEncode(compressedPublicKey);
-            return $"{Constants.HERMEZ_PREFIX}{encodedB64CompressedPublicKey}";
+            var hexToBytesA = Hex.HexToBytes(bjjCompressedHex); // handles with or without prefix
+            //var hexToBytesB = bjjCompressedHex.HexToBytes(); // has to have prefix
+            //var hexToBytesC = Encoding.UTF8.GetBytes(bjjCompressedHex); // too many bytes
+
+            var bjjSwapBuffer = hexToBytesA;
+            //var bjjSwapBuffer = hexToBytesB;
+
+            bjjSwapBuffer = SumBytes(bjjSwapBuffer);
+            //byte[] finalBuffBjj = bjjSwapBuffer.Concat(sumBuff).ToArray();
+
+            var encodedB64CompressedPublicKey = WebEncoders.Base64UrlEncode(bjjSwapBuffer);
+            var finalReturn = $"hez:{encodedB64CompressedPublicKey}";
+            return finalReturn;
+        }
+
+        public string HexToBase64BJJ(byte[] privateKey)
+        { throw new NotImplementedException(); }
+
+
+        public byte[] SumBytes(byte[] pubKeyCompressed)
+        {
+            int sum = 0;
+            for (var i = 0; i < pubKeyCompressed.Length; i++)
+            {
+                sum += pubKeyCompressed[i];
+
+                //JS: sum = sum % 2 ** 8
+                //sum ^= pubKeyCompressed[i];       // "checksum verification failed"
+                sum = (int)Math.Pow((sum % 2), 8);  // "invalid signature"
+            }
+
+            var sumByte = Convert.ToByte(sum);
+            pubKeyCompressed[pubKeyCompressed.Length - 1] = sumByte;
+            return pubKeyCompressed;
         }
 
         /// <summary>

@@ -10,6 +10,11 @@ namespace hermezcs.IntegrationTests
     /// </summary>
     public abstract class BaseTest
     {
+        // const values from: https://github.com/hermeznetwork/hermezjs/blob/main/src/constants.js
+        public const string CREATE_ACCOUNT_AUTH_MESSAGE = "Account creation";
+        public const string EIP_712_VERSION = "1";
+        public const string EIP_712_PROVIDER = "Hermez Network";
+
         // const values from: https://github.com/hermeznetwork/hermezjs/blob/be16cc414640a50adbc9899cefaea8a7ccbc202b/tests/unit/hermez-wallet.test.js
         public const string hermezEthereumAddress = "hez:0x4294cE558F2Eb6ca4C3191AeD502cF0c625AE995";
         public const string hermezEthereumAddressError = "0x4294cE558F2Eb6ca4C3191AeD502cF0c625AE995";
@@ -22,7 +27,6 @@ namespace hermezcs.IntegrationTests
         public const string expectedPvtBjj = "6d59205d6117b7185adda0456dd5c018651e98747f9b0754d97f2666313885f6";
         public const string privateKeyEth = "0x0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef";
         public const string METAMASK_MESSAGE = "Hermez Network account access.\n\nSign this message if you are in a trusted application only.";
-        public const string CREATE_ACCOUNT_AUTH_MESSAGE = "Account creation";
         public const string HERMEZ_PREFIX = "hez:";
         public Regex ethereumAddressPattern = new Regex("^0x[a-fA-F0-9]{40}$");
         public Regex hezEthereumAddressPattern = new Regex("^hez:0x[a-fA-F0-9]{40}$");
